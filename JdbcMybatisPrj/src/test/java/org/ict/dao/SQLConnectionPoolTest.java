@@ -6,6 +6,8 @@ import java.sql.Connection;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +28,14 @@ public class SQLConnectionPoolTest {
 	@Autowired
 	private DataSource dataSource;
 	
+	//@Autowired는 변수/생성자 하나하나마다 붙여주셔야 합니다.
+	@Autowired
+	private SqlSessionFactory sqlSessionFactory;
+	
 	
 	// 메서드 내부에서 DB접속에 필요한 최소한의 변수만 생성해놓고
 	// 연결 여부만 확인하기 때문에 서버를 켜고 끌 필요가 없습니다.
-	@Test
+	//@Test
 	public void testConnection() {
 		try(Connection con = dataSource.getConnection()){
 			log.info(con);
@@ -38,6 +44,18 @@ public class SQLConnectionPoolTest {
 			fail(e.getMessage());
 		}
 	}
+	
+	@Test
+	public void testMybatis() {
+		try(SqlSession session = sqlSessionFactory.openSession();
+			Connection con = session.getConnection();){
+			log.info(con);
+			log.info(session);
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+	
 	
 	
 }
