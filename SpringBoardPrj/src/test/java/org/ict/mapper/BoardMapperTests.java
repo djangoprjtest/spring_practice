@@ -52,10 +52,31 @@ public class BoardMapperTests {
 	}
 	
 	
-	@Test
+	//@Test
 	public void testSelect() {
 		// 있는 글번호 입력시 데이터 출력
 		mapper.select(6L);
+	}
+	
+	//@Test
+	public void testDelete() {
+		// mapper.delete() 호출시 삭제
+		mapper.delete(3L);
+		
+	}
+	
+	//@Test
+	public void testUpdate() {
+		// BoardVO를 먼저 생성해서 바꿀 내역을 저장한 다음
+		// 파라미터에 전달
+		BoardVO vo = new BoardVO();
+		
+		vo.setTitle("바꾼제목");
+		vo.setContent("바꾼본문");
+		vo.setWriter("바꾼글쓴이");
+		vo.setBno(4L);
+		
+		mapper.update(vo);
 	}
 	
 	
