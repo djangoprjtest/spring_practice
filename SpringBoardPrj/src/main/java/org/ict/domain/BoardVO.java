@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class BoardVO {
-
 	private Long bno;
 	private String title;
 	// 나머지도 작성해주세요
