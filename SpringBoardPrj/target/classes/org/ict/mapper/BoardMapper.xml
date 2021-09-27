@@ -95,6 +95,10 @@
 		]]>
 	</select>
 	
+	<select id="getTotalBoard" resultType="int">
+		SELECT COUNT(*) FROM board_tbl
+	</select>
+	
 </mapper>
 
 
