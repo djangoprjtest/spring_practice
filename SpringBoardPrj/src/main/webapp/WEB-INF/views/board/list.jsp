@@ -45,7 +45,7 @@
 	  	<c:if test="${btnMaker.prev}">
 	    	<li class="page-item">
 	    		<a class="page-link"
-	    			href="/board/list?pageNum=${btnMaker.startPage - 1}">
+	    			href="/board/list?pageNum=${btnMaker.startPage - 1}&searchType=${btnMaker.cri.searchType}&keyword=${btnMaker.cri.keyword}">
 	    			Previous
 	    		</a>
 	    	</li>
@@ -58,13 +58,14 @@
 	    
 	    1. 버튼이 갯수 맞게 맞는지부터 확인
 	    2. 각 바퀴수별로 다른 수치를 버튼에 새기기 위해서
-	       var속성에 변수명 적고 출력-->
+	       var속성에 변수명 적고 출력
+	    		3. 현재 조회중 페이지 강조는 class속성 내에서 삼항연산자를 이용해도 된다.-->
 		<c:forEach begin="${btnMaker.startPage}" 
 					end="${btnMaker.endPage }"
 					var="pageNum"> 
-	    	<li class="page-item ${btnMaker.cri.pageNum == pageNum ? 'active' : ''}">
+	   		<li class="page-item ${btnMaker.cri.pageNum == pageNum ? 'active' : ''}">
 	    		<a class="page-link" 
-	    		href="/board/list?pageNum=${pageNum}">${pageNum}</a>
+	    		href="/board/list?pageNum=${pageNum}&searchType=${btnMaker.cri.searchType}&keyword=${btnMaker.cri.keyword}">${pageNum}</a>
 	    	</li>
 		</c:forEach>
 	    
@@ -72,7 +73,7 @@
 	    <c:if test="${btnMaker.next}">
 		    <li class="page-item">
 		    	<a class="page-link" 
-		    	href="/board/list?pageNum=${btnMaker.endPage + 1}">Next</a>
+		    	href="/board/list?pageNum=${btnMaker.endPage + 1}&searchType=${btnMaker.cri.searchType}&keyword=${btnMaker.cri.keyword}">Next</a>
 		    </li>
 		</c:if>
 	    
@@ -80,9 +81,44 @@
 	</nav>
 	
 	<a href="/board/register"><button>글쓰기</button></a>
+	
+	<!-- 검색창 -->
 	<form action="/board/list" method="get">
+		<!-- option태그를 이용해 검색조건 선택창을 만들어주세요. -->
+		<select name="searchType">
+			<option value="n" <c:out 
+		value="${btnMaker.cri.searchType == null ? 'selected' : '' }" />>
+				-
+			</option>
+			<option value="t" <c:out 
+		value="${btnMaker.cri.searchType eq 't' ? 'selected' : '' }" />>
+				제목
+			</option>
+			<option value="c" <c:out 
+		value="${btnMaker.cri.searchType eq 'c' ? 'selected' : '' }" />>
+				본문
+			</option>
+			<option value="w" <c:out 
+		value="${btnMaker.cri.searchType eq 'w' ? 'selected' : '' }" />>
+				글쓴이
+			</option>
+			<option value="tc" <c:out 
+		value="${btnMaker.cri.searchType eq 'tc' ? 'selected' : '' }" />>
+				제목+본문
+			</option>
+			<option value="cw" <c:out 
+		value="${btnMaker.cri.searchType eq 'cw' ? 'selected' : '' }" />>
+				본문+글쓴이
+			</option>
+			<option value="tcw" <c:out 
+		value="${btnMaker.cri.searchType eq 'tcw' ? 'selected' : '' }" />>
+				제목+본문+글쓴이
+			</option>
+		</select>
+		
+		
 		<input type="text" name="keyword" 
-		placeholder="검색어" value="${keyword}" >
+		placeholder="검색어" value="${btnMaker.cri.keyword}" >
 		<input type="submit" value="검색하기">
 	</form>
 	
