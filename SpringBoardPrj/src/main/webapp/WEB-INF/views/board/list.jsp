@@ -24,7 +24,7 @@
 		<c:forEach var="board" items="${list }">
 			<tr>
 				<td>${board.bno }</td>
-				<td><a href="/board/get?bno=${board.bno}">${board.title }</a></td>
+				<td><a href="/board/get?bno=${board.bno}&pageNum=${btnMaker.cri.pageNum}&searchType=${btnMaker.cri.searchType}&keyword=${btnMaker.cri.keyword}">${board.title }</a></td>
 				<td>${board.writer }</td>
 				<td>${board.regdate }</td>
 				<td>${board.updatedate }</td>
@@ -33,7 +33,8 @@
 		
 	</table>
 	
-	${btnMaker}
+	${btnMaker}<br/>
+	페이지번호 : ${btnMaker.cri.pageNum}
 	<!-- 페이지네이션 버튼 위치 
 	페이지네이션 버튼을 상황에 맞게 출력하기 위해
 	c태그라이브러리의 조건식을 활용합니다.-->

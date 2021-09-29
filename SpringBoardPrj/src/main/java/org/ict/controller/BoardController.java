@@ -148,7 +148,6 @@ public class BoardController {
 		log.info("받아온 객체 : " + vo);
 		// .jsp파일로 vo를 보내기 위해
 		model.addAttribute("vo", vo);
-		
 		// board폴더의 get.jsp로 연결
 		return "/board/get";
 	}
@@ -178,13 +177,28 @@ public class BoardController {
 	// BoardVO로 받아서 수정한 다음 수정한 글의 디테일페이지로 넘어오면 됩니다.
 	// 수정 후는 디테일페이지로 redirect 해주세요.
 	@PostMapping("/modify")
-	public String modify(BoardVO vo, RedirectAttributes rttr) {
+	// searchType, keyword, pageNum을 컨트롤러가 받아올 수 있도록
+	// 해당 이름의 멤버변수를 가진 SearchCriteria를 파라미터선언
+	public String modify(BoardVO vo, SearchCriteria cri, RedirectAttributes rttr
+			) {
 		log.info("수정로직입니다." + vo);
+		log.info("검색어 : " + cri.getKeyword());
+		log.info("검색조건 : " + cri.getSearchType());
+		log.info("페이지번호 : " + cri.getPageNum());
 		service.modify(vo);
 		
+		// rttr.addAttribute("파라미터명", "전달자료")
+		// 는 호출되면 redirect 주소 뒤에 파라미터를 붙여줍니다.
+		// rttr.addFlashAttribute()는 넘어간 페이지에서 파라미터를
+		// 쓸 수 있도록 전달하는 것으로 둘의 역할이 다르니 주의해주세요.
+		rttr.addAttribute("bno", vo.getBno());
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("searchType", cri.getSearchType());
+		rttr.addAttribute("keyword", cri.getKeyword());
+
 		// 상세 페이지는 bno가 파라미터로 주어져야 하기 때문에
 		// 아래와 같이 리턴구문을 작성해야 합니다.
-		return "redirect:/board/get?bno=" + vo.getBno();
+		return "redirect:/board/get";
 	}
 	
 	// 글을 수정할때는 modify.jsp를 이용해 수정을 해야합니다.
