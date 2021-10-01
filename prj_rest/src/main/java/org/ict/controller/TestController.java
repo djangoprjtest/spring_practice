@@ -78,6 +78,7 @@ public class TestController {
 			
 	}
 	
+	// 데이터와 결과코드를 같이 전송하는 케이스
 	@RequestMapping("/sendErrorNot")
 	public ResponseEntity<List<TestVO>> sendListNot(){
 		

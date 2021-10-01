@@ -26,5 +26,11 @@
 		 WHERE rno = #{rno}
 	</update>
 	
+	<delete id="delete">
+		DELETE FROM reply_tbl
+			WHERE rno = #{rno}
+	</delete>
+	
+	
 
 </mapper>
