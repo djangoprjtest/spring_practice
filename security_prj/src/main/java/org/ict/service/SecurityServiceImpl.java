@@ -14,12 +14,9 @@ public class SecurityServiceImpl implements SecurityService {
 	
 	// 트랜잭션 걸면 더 좋음
 	@Override
-	public void insertMember(MemberVO vo) {
-		
+	public void insertMember(MemberVO vo) {	
 		mapper.insertMemberTbl(vo);
 		
 		mapper.insertMemberAuth(vo);
-		
 	}
-
 }
