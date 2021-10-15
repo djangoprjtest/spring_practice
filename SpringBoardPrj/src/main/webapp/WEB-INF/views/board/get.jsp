@@ -21,6 +21,26 @@
 		padding: 10px;
 		z-index:1000;
 	}
+	
+	/* uploadResult 결과물 css */
+	.uploadResult {
+		width:100%;
+		background-color:gray;
+	}
+	.uploadResult ul {
+		display:flex;
+		flex-flow:row;
+		justify-content:center;
+		align-items: center;
+	}
+	.uploadResult ul li {
+		list-style:none;
+		padding : 10px;
+	}
+	.uploadResult ul li img {
+		width:20px;
+	}
+	
 </style>
 </head>
 <body>
@@ -55,6 +75,18 @@
 		<input name="keyword" type="hidden" value="${param.keyword}" >
 		<input type="submit" value="수정">
 	</form>
+	
+	<!-- 첨부파일추가 -->
+	<hr>
+	<div class="row">
+		<h3 class="text-primary">첨부파일</h3>
+		<div id="uploadResult">
+			<ul>
+				<!-- 첨부파일 집어넣을 위치 -->
+			</ul>
+		</div>
+	</div>
+	
 	
 	<hr>
 	<h2>댓글 영역</h2>
@@ -256,6 +288,44 @@
 		$("#closeBtn").on("click", function(){
 			$("#modDiv").hide("slow");
 		});
+		
+		(function(){
+			// getJSON의 두 번째 파라미터로 ?bno=bno값을 대체
+			$.getJSON("/board/getAttachList", {bno:bno}, function(arr){
+				console.log(arr);
+				
+				// ul태그 내부에 태그를 추가해야하기때문에 문자열 이용
+				var str = "";
+				// i, obj랑 같은데 변수명만 i, attach로 바꿈
+				$(arr).each(function(i, attach){
+					// image type
+					if(attach.image){
+						var fileCallPath = encodeURIComponent(attach.uploadPath 
+							+ "/s_" + attach.uuid + "_" + attach.fileName);
+						
+						str += "<li data-path='" + attach.uploadPath + "' data-uuid='"
+							+ attach.uuid + "' data-filename='"+ attach.fileName
+							+ "' data-type='" + attach.image + "' >"
+							+ "<div>"
+							+ "<img src='/display?fileName=" + fileCallPath + "'>"
+							+ "</div>"
+							+ "</li>";
+					} else {
+						str += "<li data-path='" + attach.uploadPath + "' data-uuid='"
+						+ attach.uuid + "' data-filename='"+ attach.fileName
+						+ "' data-type='" + attach.image + "' >"
+						+ "<div>"
+						+ "<img src='/resources/file.png' width='100px' height='100px'>"
+						+ "</div>"
+						+ "</li>";
+					}
+				});//end forEach
+				$("#uploadResult ul").html(str);
+			});// end getJSON
+		})();// end anonymous function & call function()
+		
+		
+		
 		
 		
 	</script>
